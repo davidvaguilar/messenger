@@ -25,7 +25,7 @@ const app = new Vue({
     el: '#app',
     methods:{
       logout(){
-        alert('abc');
+        document.getElementById('logout-form').submit();
       }
     }
 });
