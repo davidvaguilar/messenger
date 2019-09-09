@@ -6,29 +6,44 @@
       </b-form-input>
     </b-form>
     <b-list-group>
+      <contact-component v-for="conversation in conversations"
+        :key="conversation.id"
+        :conversation="conversation"
+        @click.native="selectConversation(conversation)">
+      </contact-component>
+      <!--
         <contact-component variant="dark">
         </contact-component>
         <contact-component variant="">
         </contact-component>
         <contact-component variant="secondary">
         </contact-component>
+      -->
     </b-list-group>
   </div>
-
 </template>
 
 <script>
     export default {
-
       data(){
         return {
-            name: 'David Villegas',
-            lastMessage: 'Tu. Hasta pronto',
-            lastTime: '1:37 pm'
+            conversations: []
         };
       },
       mounted() {
-        console.log('Component mounted.')
+        this.getConversations();
+      },
+      methods: {
+        getConversations() {
+          axios.get('/api/conversations')
+          .then((response) => {
+            this.conversations = response.data;
+          });
+        },
+        selectConversation(conversation){
+          //console.log(conversation);
+          this.$emit('conversationSelected', conversation);
+        }
       }
     }
 </script>
